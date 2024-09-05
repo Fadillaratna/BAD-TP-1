@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -35,13 +37,23 @@ public class DavidLibrary {
 
             if (selectedBook != null) {
                 System.out.println("Jenis buku '" + bookType + "' ditemukan.\n");
-                System.out.print("Input jumlah hari peminjaman: ");
-                int totalDaysBorrowed = scanner.nextInt();
 
-                int totalDaysLate = totalDaysBorrowed - 10;
+                System.out.print("Input tanggal peminjaman (yyyy-mm-dd): ");
+                LocalDate borrowingDate = LocalDate.parse(scanner.nextLine());
+
+                System.out.print("Input tanggal pengembalian (yyyy-mm-dd): ");
+                LocalDate returnDate = LocalDate.parse(scanner.nextLine());
+
+                long totalDaysBorrowing = ChronoUnit.DAYS.between(borrowingDate, returnDate);
+                long totalDaysLate = totalDaysBorrowing - 10;
+
+                System.out.println("--------------------------------------");
+                System.out.println("Jenis Buku: " + selectedBook.getType());
+                System.out.println("Total Hari Peminjaman Buku: " + totalDaysBorrowing + " hari");
+
                 if (totalDaysLate > 0) {
-                    int fineFee = selectedBook.calculateFineFee(totalDaysLate);
-                    System.out.println("\nAnda terlambat mengembalikan buku selama " + totalDaysLate + " hari.");
+                    long fineFee = selectedBook.calculateFineFee(totalDaysLate);
+                    System.out.println("Anda terlambat mengembalikan buku selama " + totalDaysLate + " hari.");
                     System.out.println("Denda yang harus dibayar: Rp" + fineFee);
                 } else {
                     System.out.println("Tidak ada denda. Terima kasih sudah mengembalikan buku tepat waktu.");

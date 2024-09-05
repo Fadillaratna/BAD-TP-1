@@ -23,7 +23,7 @@ public class Book {
         this.fineFee = fineFee;
     }
 
-    public int calculateFineFee(int totalDaysLate){
+    public long calculateFineFee(long totalDaysLate){
         return totalDaysLate * fineFee;
     }
 
